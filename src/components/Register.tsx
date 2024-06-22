@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // 使用 React Router 进行页面跳转
 
 // 定义 Response 类型
 interface Response<T> {
@@ -10,14 +10,14 @@ interface Response<T> {
   data: T;
 }
 
-const LoginContainer = styled.div`
+const RegisterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 `;
 
-const LoginCard = styled.div`
+const RegisterCard = styled.div`
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -25,40 +25,42 @@ const LoginCard = styled.div`
   width: 300px;
 `;
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
       const response = await axios.post<Response<any>>(
-        `http://localhost:8080/api/auth/login`,
+        `http://localhost:8080/api/auth/register`,
         null,
         {
           params: {
             username,
             password,
+            email,
           },
         }
       );
 
       if (response.data.isSuccess) {
-        // 登录成功,跳转到主页
+        // 成功,跳转到主页
         window.location.href = "/"; // 或者使用 React Router 进行页面跳转
       } else {
-        // 登录失败,显示错误信息
+        // 失败,显示错误信息
         alert(response.data.message);
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("登录失败,请稍后重试");
+      alert("zhuce失败,请稍后重试");
     }
   };
 
   return (
-    <LoginContainer>
-      <LoginCard>
-        <h2>登录</h2>
+    <RegisterContainer>
+      <RegisterCard>
+        <h2>注册</h2>
         <div>
           <label htmlFor="username">用户名:</label>
           <input
@@ -77,13 +79,22 @@ const Login: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button onClick={handleLogin}>登录</button>
         <div>
-          没有账号?<Link to="/register">立即注册</Link>
+          <label htmlFor="email">邮箱:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-      </LoginCard>
-    </LoginContainer>
+        <button onClick={handleRegister}>注册</button>
+        <div>
+          已有账号?<Link to="/login">返回登录</Link>
+        </div>
+      </RegisterCard>
+    </RegisterContainer>
   );
 };
 
-export default Login;
+export default Register;

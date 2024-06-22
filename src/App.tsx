@@ -1,12 +1,19 @@
 import React from "react";
 import Login from "./components/Login";
+import Register from "./components/Register";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
-const LoginPage: React.FC = () => {
+const App: React.FC = () => {
   return (
-    <div>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {/* 其他路由 */}
+      </Routes>
+    </Router>
   );
 };
 
-export default LoginPage;
+export default App;
