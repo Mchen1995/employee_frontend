@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // 定义 Response 类型
 interface Response<T> {
-  isSuccess: boolean;
+  success: boolean;
   message: string;
   data: T;
 }
@@ -28,6 +29,7 @@ const LoginCard = styled.div`
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -42,10 +44,13 @@ const Login: React.FC = () => {
         }
       );
 
-      if (response.data.isSuccess) {
+      console.log("Response:", response.data);
+      if (response.data.success) {
+        console.log("login success");
         // 登录成功,跳转到主页
-        window.location.href = "/"; // 或者使用 React Router 进行页面跳转
+        navigate("/");
       } else {
+        console.log("login failed");
         // 登录失败,显示错误信息
         alert(response.data.message);
       }
