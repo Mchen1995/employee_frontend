@@ -60,35 +60,61 @@ const EmployeeModule: React.FC = () => {
     { title: "部门", dataIndex: "department", key: "department" },
   ];
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "id" | "name" | "gender"
+  ) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      [field]: e.target.value,
+    }));
+  };
+
   return (
     <div>
-      <Space style={{ marginBottom: 16 }}>
-        <Input
+      <div>
+        <input
+          type="text"
           placeholder="工号"
           value={searchParams.id}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, id: e.target.value })
-          }
+          onChange={(e) => handleInputChange(e, "id")}
         />
-        <Input
+        <input
+          type="text"
           placeholder="姓名"
           value={searchParams.name}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, name: e.target.value })
-          }
+          onChange={(e) => handleInputChange(e, "name")}
         />
-        <Input
-          placeholder="性别"
+        <input
+          type="text"
+          placeholder="Gender"
           value={searchParams.gender}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, gender: e.target.value })
-          }
+          onChange={(e) => handleInputChange(e, "gender")}
         />
-        <Button type="primary" onClick={handleSearch}>
-          查询
-        </Button>
-      </Space>
-      <Table dataSource={employees} columns={columns} rowKey="id" />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <table className="employee-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map((employee) => (
+            <tr key={employee.id}>
+              <td>{employee.id}</td>
+              <td>{employee.name}</td>
+              <td>{employee.gender}</td>
+              <td>{employee.phone}</td>
+              <td>{employee.department}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
