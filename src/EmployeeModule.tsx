@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Input, Button, Space } from "antd";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface Employee {
@@ -17,6 +18,7 @@ interface Response<T> {
 }
 
 const EmployeeModule: React.FC = () => {
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [searchParams, setSearchParams] = useState({
     id: "",
@@ -50,6 +52,11 @@ const EmployeeModule: React.FC = () => {
 
   const handleSearch = () => {
     fetchEmployees(searchParams);
+  };
+  const handleEdit = (employee: Employee) => {
+    // 跳转到编辑页面并传递员工信息
+    console.log("pass" + employee.name);
+    navigate(`/employee/edit/${employee.id}`, { state: employee });
   };
 
   const handleDelete = (id: string) => {
@@ -155,6 +162,7 @@ const EmployeeModule: React.FC = () => {
               <td>{employee.phone}</td>
               <td>{employee.department}</td>
               <td>
+                <Button onClick={() => handleEdit(employee)}>编辑</Button>
                 <button onClick={() => handleDelete(employee.id)}>删除</button>
               </td>
             </tr>
