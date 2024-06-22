@@ -1,0 +1,69 @@
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  margin-right: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.gender-container {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.gender-label {
+  margin-right: 0.5rem;
+}
+
+.search-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  height: 5rem; /* 调整按钮高度 */
+  width: 300px; /* 调整按钮宽度 */
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.employee-table th {
+  background-color: #f2f2f2;
+}
+
+.employee-table th:nth-child(1) {
+  width: 10%;
+}
+
+.employee-table th:nth-child(2) {
+  width: 20%;
+}
+
+.employee-table th:nth-child(3) {
+  width: 10%;
+}
+
+.employee-table th:nth-child(4) {
+  width: 20%;
+}
+
+.employee-table th:nth-child(5) {
+  width: 20%;
+}

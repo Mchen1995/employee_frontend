@@ -52,14 +52,6 @@ const EmployeeModule: React.FC = () => {
     fetchEmployees(searchParams);
   };
 
-  const columns = [
-    { title: "工号", dataIndex: "id", key: "id" },
-    { title: "姓名", dataIndex: "name", key: "name" },
-    { title: "性别", dataIndex: "gender", key: "gender" },
-    { title: "手机号", dataIndex: "phone", key: "phone" },
-    { title: "部门", dataIndex: "department", key: "department" },
-  ];
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: "id" | "name"
@@ -92,16 +84,7 @@ const EmployeeModule: React.FC = () => {
           value={searchParams.name}
           onChange={(e) => handleInputChange(e, "name")}
         />
-        <label>
-          <input
-            type="radio"
-            name="gender"
-            value=""
-            checked={searchParams.gender === ""}
-            onChange={handleGenderChange}
-          />
-          不限性别
-        </label>
+
         <label>
           <input
             type="radio"
@@ -122,16 +105,26 @@ const EmployeeModule: React.FC = () => {
           />
           女
         </label>
-        <button onClick={handleSearch}>Search</button>
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value=""
+            checked={searchParams.gender === ""}
+            onChange={handleGenderChange}
+          />
+          不限
+        </label>
+        <button onClick={handleSearch}>查询</button>
       </div>
       <table className="employee-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Department</th>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>手机</th>
+            <th>部门</th>
           </tr>
         </thead>
         <tbody>
