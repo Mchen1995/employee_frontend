@@ -52,6 +52,24 @@ const EmployeeModule: React.FC = () => {
     fetchEmployees(searchParams);
   };
 
+  const handleDelete = (id: string) => {
+    fetch(`http://localhost:8080/api/employee/delete/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // 删除成功后,刷新表格
+        refreshEmployeeTable();
+      })
+      .catch((error) => {
+        console.error("Error deleting employee:", error);
+      });
+  };
+
+  const refreshEmployeeTable = () => {
+    fetchEmployees(searchParams);
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: "id" | "name"
@@ -125,6 +143,7 @@ const EmployeeModule: React.FC = () => {
             <th>性别</th>
             <th>手机</th>
             <th>部门</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
@@ -135,6 +154,9 @@ const EmployeeModule: React.FC = () => {
               <td>{employee.gender}</td>
               <td>{employee.phone}</td>
               <td>{employee.department}</td>
+              <td>
+                <button onClick={() => handleDelete(employee.id)}>删除</button>
+              </td>
             </tr>
           ))}
         </tbody>
