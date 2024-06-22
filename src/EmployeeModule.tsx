@@ -62,11 +62,18 @@ const EmployeeModule: React.FC = () => {
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "id" | "name" | "gender"
+    field: "id" | "name"
   ) => {
     setSearchParams((prevParams) => ({
       ...prevParams,
       [field]: e.target.value,
+    }));
+  };
+
+  const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      gender: e.target.value,
     }));
   };
 
@@ -85,12 +92,36 @@ const EmployeeModule: React.FC = () => {
           value={searchParams.name}
           onChange={(e) => handleInputChange(e, "name")}
         />
-        <input
-          type="text"
-          placeholder="Gender"
-          value={searchParams.gender}
-          onChange={(e) => handleInputChange(e, "gender")}
-        />
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value=""
+            checked={searchParams.gender === ""}
+            onChange={handleGenderChange}
+          />
+          不限性别
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value="0"
+            checked={searchParams.gender === "0"}
+            onChange={handleGenderChange}
+          />
+          男
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="gender"
+            value="1"
+            checked={searchParams.gender === "1"}
+            onChange={handleGenderChange}
+          />
+          女
+        </label>
         <button onClick={handleSearch}>Search</button>
       </div>
       <table className="employee-table">
