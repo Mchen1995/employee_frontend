@@ -119,7 +119,9 @@ const Attendance: React.FC = () => {
           <Option value="1">迟到</Option>
           <Option value="2">未打卡</Option>
         </Select>
-        <button onClick={handleSearch}>查询</button>
+        <button className="custom-button" onClick={handleSearch}>
+          查询
+        </button>
       </div>
       <table className="employee-table">
         <thead>
@@ -166,7 +168,9 @@ const Attendance: React.FC = () => {
         </tbody>
       </table>
       <div style={{ alignItems: "center" }}>
-        <button onClick={handleCreate}>新增</button>
+        <button className="custom-button" onClick={handleCreate}>
+          新增
+        </button>
       </div>
     </div>
   );

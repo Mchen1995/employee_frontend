@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Table, Input, Button, Space } from "antd";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./EmployeeModule.css";
 
 interface Employee {
   id: string;
@@ -16,6 +18,16 @@ interface Response<T> {
   message: string;
   data: T[];
 }
+
+const CreateButton = styled.button`
+  width: 318px;
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
 
 const EmployeeModule: React.FC = () => {
   const navigate = useNavigate();
@@ -145,7 +157,9 @@ const EmployeeModule: React.FC = () => {
           />
           不限
         </label>
-        <button onClick={handleSearch}>查询</button>
+        <button className="custom-button" onClick={handleSearch}>
+          查询
+        </button>
       </div>
       <table className="employee-table">
         <thead>
@@ -177,7 +191,9 @@ const EmployeeModule: React.FC = () => {
         </tbody>
       </table>
       <div style={{ alignItems: "center" }}>
-        <button onClick={handleCreate}>新增</button>
+        <button className="custom-button" onClick={handleCreate}>
+          新增
+        </button>
       </div>
     </div>
   );

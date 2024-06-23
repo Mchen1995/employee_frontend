@@ -118,7 +118,9 @@ const RewardModule: React.FC = () => {
           value={searchParams.reason}
           onChange={(e) => handleInputChange(e, "reason")}
         />
-        <button onClick={handleSearch}>查询</button>
+        <button className="custom-button" onClick={handleSearch}>
+          查询
+        </button>
       </div>
       <table className="employee-table">
         <thead>
@@ -150,7 +152,9 @@ const RewardModule: React.FC = () => {
         </tbody>
       </table>
       <div style={{ alignItems: "center" }}>
-        <button onClick={handleCreate}>新增</button>
+        <button className="custom-button" onClick={handleCreate}>
+          新增
+        </button>
       </div>
     </div>
   );
