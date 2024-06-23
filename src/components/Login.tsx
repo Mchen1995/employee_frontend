@@ -12,18 +12,39 @@ interface Response<T> {
 }
 
 const LoginContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const LoginCard = styled.div`
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+const LoginButton = styled.button`
+  width: 318px;
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+const InputField = styled.input`
   width: 300px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const RegisterLink = styled(Link)`
+  display: block;
+  margin-top: 16px;
+  text-align: center;
 `;
 
 const Login: React.FC = () => {
@@ -63,28 +84,30 @@ const Login: React.FC = () => {
   return (
     <LoginContainer>
       <LoginCard>
-        <h2>登录</h2>
+        <h1>登录</h1>
         <div>
-          <label htmlFor="username">用户名:</label>
-          <input
-            type="text"
+          <label htmlFor="username"></label>
+          <InputField
             id="username"
+            type="text"
             value={username}
+            placeholder="用户名"
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">密码:</label>
-          <input
-            type="password"
+          <label htmlFor="password"></label>
+          <InputField
             id="password"
+            type="password"
             value={password}
+            placeholder="密码"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button onClick={handleLogin}>登录</button>
+        <LoginButton onClick={handleLogin}>登录</LoginButton>
         <div>
-          没有账号?<Link to="/register">立即注册</Link>
+          <RegisterLink to="/register">立即注册</RegisterLink>
         </div>
       </LoginCard>
     </LoginContainer>
