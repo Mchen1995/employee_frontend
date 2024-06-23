@@ -150,23 +150,25 @@ const EmployeeModule: React.FC = () => {
       <table className="employee-table">
         <thead>
           <tr>
-            <th>工号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>手机</th>
-            <th>部门</th>
-            <th>操作</th>
+            <th style={{ padding: "12px 20px" }}>工号</th>
+            <th style={{ padding: "12px 20px" }}>姓名</th>
+            <th style={{ padding: "12px 20px" }}>性别</th>
+            <th style={{ padding: "12px 20px" }}>手机</th>
+            <th style={{ padding: "12px 20px" }}>部门</th>
+            <th style={{ padding: "12px 20px" }}>操作</th>
           </tr>
         </thead>
         <tbody>
           {employees.map((employee) => (
             <tr key={employee.id}>
-              <td>{employee.id}</td>
-              <td>{employee.name}</td>
-              <td>{employee.gender === "0" ? "男" : "女"}</td>
-              <td>{employee.phone}</td>
-              <td>{employee.department}</td>
-              <td>
+              <td style={{ padding: "12px 20px" }}>{employee.id}</td>
+              <td style={{ padding: "12px 20px" }}>{employee.name}</td>
+              <td style={{ padding: "12px 20px" }}>
+                {employee.gender === "0" ? "男" : "女"}
+              </td>
+              <td style={{ padding: "12px 20px" }}>{employee.phone}</td>
+              <td style={{ padding: "12px 20px" }}>{employee.department}</td>
+              <td style={{ padding: "12px 20px" }}>
                 <Button onClick={() => handleEdit(employee)}>编辑</Button>
                 <button onClick={() => handleDelete(employee.id)}>删除</button>
               </td>
@@ -174,7 +176,7 @@ const EmployeeModule: React.FC = () => {
           ))}
         </tbody>
       </table>
-      <div>
+      <div style={{ alignItems: "center" }}>
         <button onClick={handleCreate}>新增</button>
       </div>
     </div>
