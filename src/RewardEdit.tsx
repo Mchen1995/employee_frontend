@@ -44,7 +44,7 @@ function RewardEdit() {
   }
 
   return (
-    <div>
+    <div className="custom-container">
       <h2>修改奖惩记录</h2>
       <div>
         <label>序号: {reward.id}</label>
@@ -72,7 +72,9 @@ function RewardEdit() {
           />
         </label>
       </div>
-      <button onClick={handleSave}>保存</button>
+      <button className="custom-button" onClick={handleSave}>
+        保存
+      </button>
     </div>
   );
 }

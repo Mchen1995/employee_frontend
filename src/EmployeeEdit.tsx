@@ -47,8 +47,8 @@ function EmployeeEdit() {
   }
 
   return (
-    <div>
-      <h2>修改员工信息</h2>
+    <div className="custom-container">
+      <h1>修改员工信息</h1>
       <div>
         <label>工号: {employee.id}</label>
       </div>
@@ -75,7 +75,9 @@ function EmployeeEdit() {
           />
         </label>
       </div>
-      <button onClick={handleSave}>Save</button>
+      <button className="custom-button" onClick={handleSave}>
+        保存
+      </button>
     </div>
   );
 }
