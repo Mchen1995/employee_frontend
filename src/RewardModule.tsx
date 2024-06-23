@@ -3,6 +3,7 @@ import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
+import styled from "styled-components";
 
 interface Reward {
   id: string;
@@ -17,6 +18,13 @@ interface Response<T> {
   message: string;
   data: T[];
 }
+
+const TableContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 const RewardModule: React.FC = () => {
   const navigate = useNavigate();
@@ -98,65 +106,67 @@ const RewardModule: React.FC = () => {
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <input
-          type="text"
-          placeholder="工号"
-          value={searchParams.employeeId}
-          onChange={(e) => handleInputChange(e, "employeeId")}
-        />
-        <input
-          type="text"
-          placeholder="内容"
-          value={searchParams.content}
-          onChange={(e) => handleInputChange(e, "content")}
-        />
-        <input
-          type="text"
-          placeholder="原因"
-          value={searchParams.reason}
-          onChange={(e) => handleInputChange(e, "reason")}
-        />
-        <button className="custom-button" onClick={handleSearch}>
-          查询
-        </button>
-      </div>
-      <table className="employee-table">
-        <thead>
-          <tr>
-            <th style={{ padding: "12px 20px" }}>序号</th>
-            <th style={{ padding: "12px 20px" }}>工号</th>
-            <th style={{ padding: "12px 20px" }}>内容</th>
-            <th style={{ padding: "12px 20px" }}>原因</th>
-            <th style={{ padding: "12px 20px" }}>日期</th>
-            <th style={{ padding: "12px 20px" }}>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rewards.map((reward) => (
-            <tr key={reward.id}>
-              <td style={{ padding: "12px 20px" }}>{reward.id}</td>
-              <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
-              <td style={{ padding: "12px 20px" }}>{reward.content}</td>
-              <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
-              <td style={{ padding: "12px 20px" }}>
-                {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
-              </td>
-              <td style={{ padding: "12px 20px" }}>
-                <Button onClick={() => handleEdit(reward)}>编辑</Button>
-                <button onClick={() => handleDelete(reward.id)}>删除</button>
-              </td>
+    <TableContainer>
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <input
+            type="text"
+            placeholder="工号"
+            value={searchParams.employeeId}
+            onChange={(e) => handleInputChange(e, "employeeId")}
+          />
+          <input
+            type="text"
+            placeholder="内容"
+            value={searchParams.content}
+            onChange={(e) => handleInputChange(e, "content")}
+          />
+          <input
+            type="text"
+            placeholder="原因"
+            value={searchParams.reason}
+            onChange={(e) => handleInputChange(e, "reason")}
+          />
+          <button className="custom-button" onClick={handleSearch}>
+            查询
+          </button>
+        </div>
+        <table className="employee-table">
+          <thead>
+            <tr>
+              <th style={{ padding: "12px 20px" }}>序号</th>
+              <th style={{ padding: "12px 20px" }}>工号</th>
+              <th style={{ padding: "12px 20px" }}>内容</th>
+              <th style={{ padding: "12px 20px" }}>原因</th>
+              <th style={{ padding: "12px 20px" }}>日期</th>
+              <th style={{ padding: "12px 20px" }}>操作</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div style={{ alignItems: "center" }}>
-        <button className="custom-button" onClick={handleCreate}>
-          新增
-        </button>
+          </thead>
+          <tbody>
+            {rewards.map((reward) => (
+              <tr key={reward.id}>
+                <td style={{ padding: "12px 20px" }}>{reward.id}</td>
+                <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
+                <td style={{ padding: "12px 20px" }}>{reward.content}</td>
+                <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
+                <td style={{ padding: "12px 20px" }}>
+                  {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
+                </td>
+                <td style={{ padding: "12px 20px" }}>
+                  <Button onClick={() => handleEdit(reward)}>编辑</Button>
+                  <button onClick={() => handleDelete(reward.id)}>删除</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ alignItems: "center" }}>
+          <button className="custom-button" onClick={handleCreate}>
+            新增
+          </button>
+        </div>
       </div>
-    </div>
+    </TableContainer>
   );
 };
 

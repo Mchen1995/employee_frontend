@@ -4,6 +4,7 @@ import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
+import styled from "styled-components";
 
 interface Attendance {
   id: string;
@@ -17,6 +18,13 @@ interface Response<T> {
   message: string;
   data: T[];
 }
+
+const TableContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 const Attendance: React.FC = () => {
   const navigate = useNavigate();
@@ -100,79 +108,83 @@ const Attendance: React.FC = () => {
   const { Option } = Select;
 
   return (
-    <div>
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <input
-          type="text"
-          placeholder="工号"
-          value={searchParams.employeeId}
-          onChange={(e) => handleInputChange(e, "employeeId")}
-        />
+    <TableContainer>
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <input
+            type="text"
+            placeholder="工号"
+            value={searchParams.employeeId}
+            onChange={(e) => handleInputChange(e, "employeeId")}
+          />
 
-        <Select
-          value={searchParams.status}
-          onChange={(value) => handleSelectChange(value, "status")}
-          style={{ width: "200px" }}
-        >
-          <Option value="">全部</Option>
-          <Option value="0">正常</Option>
-          <Option value="1">迟到</Option>
-          <Option value="2">未打卡</Option>
-        </Select>
-        <button className="custom-button" onClick={handleSearch}>
-          查询
-        </button>
-      </div>
-      <table className="employee-table">
-        <thead>
-          <tr>
-            <th style={{ padding: "12px 20px" }}>序号</th>
-            <th style={{ padding: "12px 20px" }}>工号</th>
-            <th style={{ padding: "12px 20px" }}>状态</th>
-            <th style={{ padding: "12px 20px" }}>日期</th>
-            <th style={{ padding: "12px 20px" }}>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendances.map((attendance) => (
-            <tr key={attendance.id}>
-              <td style={{ padding: "12px 20px" }}>{attendance.id}</td>
-              <td style={{ padding: "12px 20px" }}>{attendance.employeeId}</td>
-              <td
-                style={{
-                  padding: "12px 20px",
-                  backgroundColor:
-                    attendance.status === "0"
-                      ? "green"
-                      : attendance.status === "1"
-                      ? "yellow"
-                      : "red",
-                }}
-              >
-                {attendance.status === "0"
-                  ? "正常"
-                  : attendance.status === "1"
-                  ? "迟到"
-                  : "未打卡"}
-              </td>
-              <td style={{ padding: "12px 20px" }}>
-                {format(parseISO(attendance.recordDate), "yyyy-MM-dd")}
-              </td>
-              <td style={{ padding: "12px 20px" }}>
-                <button onClick={() => handleDelete(attendance.id)}>
-                  删除
-                </button>
-              </td>
+          <Select
+            value={searchParams.status}
+            onChange={(value) => handleSelectChange(value, "status")}
+            style={{ width: "200px" }}
+          >
+            <Option value="">全部</Option>
+            <Option value="0">正常</Option>
+            <Option value="1">迟到</Option>
+            <Option value="2">未打卡</Option>
+          </Select>
+          <button className="custom-button" onClick={handleSearch}>
+            查询
+          </button>
+        </div>
+        <table className="employee-table">
+          <thead>
+            <tr>
+              <th style={{ padding: "12px 20px" }}>序号</th>
+              <th style={{ padding: "12px 20px" }}>工号</th>
+              <th style={{ padding: "12px 20px" }}>状态</th>
+              <th style={{ padding: "12px 20px" }}>日期</th>
+              <th style={{ padding: "12px 20px" }}>操作</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div style={{ alignItems: "center" }}>
-        <button className="custom-button" onClick={handleCreate}>
-          新增
-        </button>
+          </thead>
+          <tbody>
+            {attendances.map((attendance) => (
+              <tr key={attendance.id}>
+                <td style={{ padding: "12px 20px" }}>{attendance.id}</td>
+                <td style={{ padding: "12px 20px" }}>
+                  {attendance.employeeId}
+                </td>
+                <td
+                  style={{
+                    padding: "12px 20px",
+                    backgroundColor:
+                      attendance.status === "0"
+                        ? "green"
+                        : attendance.status === "1"
+                        ? "yellow"
+                        : "red",
+                  }}
+                >
+                  {attendance.status === "0"
+                    ? "正常"
+                    : attendance.status === "1"
+                    ? "迟到"
+                    : "未打卡"}
+                </td>
+                <td style={{ padding: "12px 20px" }}>
+                  {format(parseISO(attendance.recordDate), "yyyy-MM-dd")}
+                </td>
+                <td style={{ padding: "12px 20px" }}>
+                  <button onClick={() => handleDelete(attendance.id)}>
+                    删除
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ alignItems: "center" }}>
+          <button className="custom-button" onClick={handleCreate}>
+            新增
+          </button>
+        </div>
       </div>
-    </div>
+    </TableContainer>
   );
 };
 
