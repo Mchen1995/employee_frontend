@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { format, parseISO } from "date-fns";
 
 interface Reward {
   id: string;
   employeeId: string;
   content: string;
   reason: string;
-  recordDate: Date;
+  recordDate: string;
 }
 
 interface Response<T> {
@@ -126,6 +127,7 @@ const RewardModule: React.FC = () => {
             <th style={{ padding: "12px 20px" }}>工号</th>
             <th style={{ padding: "12px 20px" }}>内容</th>
             <th style={{ padding: "12px 20px" }}>原因</th>
+            <th style={{ padding: "12px 20px" }}>日期</th>
             <th style={{ padding: "12px 20px" }}>操作</th>
           </tr>
         </thead>
@@ -136,6 +138,9 @@ const RewardModule: React.FC = () => {
               <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
               <td style={{ padding: "12px 20px" }}>{reward.content}</td>
               <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
+              <td style={{ padding: "12px 20px" }}>
+                {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
+              </td>
               <td style={{ padding: "12px 20px" }}>
                 <Button onClick={() => handleEdit(reward)}>编辑</Button>
                 <button onClick={() => handleDelete(reward.id)}>删除</button>
