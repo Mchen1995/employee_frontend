@@ -163,7 +163,7 @@ const EmployeeModule: React.FC = () => {
             <tr key={employee.id}>
               <td>{employee.id}</td>
               <td>{employee.name}</td>
-              <td>{employee.gender}</td>
+              <td>{employee.gender === "0" ? "男" : "女"}</td>
               <td>{employee.phone}</td>
               <td>{employee.department}</td>
               <td>
