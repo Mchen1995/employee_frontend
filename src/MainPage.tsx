@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
+import axios from "axios";
 import {
   UserOutlined,
   ApartmentOutlined,
   ClockCircleOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import EmployeeModule from "./EmployeeModule";
 import RewardPunishmentModule from "./RewardModule";
 import AttendanceModule from "./AttendanceModule";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
 
@@ -16,6 +19,17 @@ const MainPage: React.FC = () => {
 
   const handleMenuClick = (key: string) => {
     setCurrentModule(key);
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:8080/api/auth/logout");
+      navigate("/login");
+    } catch (error) {
+      console.error("登出失败:", error);
+    }
   };
 
   return (
@@ -35,6 +49,13 @@ const MainPage: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="attendanceRecord" icon={<ClockCircleOutlined />}>
             考勤记录
+          </Menu.Item>
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+          >
+            退出登录
           </Menu.Item>
         </Menu>
       </Sider>
