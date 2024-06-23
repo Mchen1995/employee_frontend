@@ -6,7 +6,7 @@ import {
   ClockCircleOutlined,
 } from "@ant-design/icons";
 import EmployeeModule from "./EmployeeModule";
-import RewardPunishmentModule from "./RewardPunishmentModule";
+import RewardPunishmentModule from "./RewardModule";
 import AttendanceRecords from "./AttendanceRecords";
 
 const { Header, Content, Sider } = Layout;
