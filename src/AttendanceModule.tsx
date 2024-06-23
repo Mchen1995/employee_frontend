@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
+import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
@@ -89,6 +90,15 @@ const Attendance: React.FC = () => {
     }));
   };
 
+  const handleSelectChange = (value: string, fieldName: string) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      [fieldName]: value,
+    }));
+  };
+
+  const { Option } = Select;
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -98,12 +108,17 @@ const Attendance: React.FC = () => {
           value={searchParams.employeeId}
           onChange={(e) => handleInputChange(e, "employeeId")}
         />
-        <input
-          type="text"
-          placeholder="状态"
+
+        <Select
           value={searchParams.status}
-          onChange={(e) => handleInputChange(e, "status")}
-        />
+          onChange={(value) => handleSelectChange(value, "status")}
+          style={{ width: "200px" }}
+        >
+          <Option value="">全部</Option>
+          <Option value="0">正常</Option>
+          <Option value="1">迟到</Option>
+          <Option value="2">未打卡</Option>
+        </Select>
         <button onClick={handleSearch}>查询</button>
       </div>
       <table className="employee-table">
