@@ -73,6 +73,11 @@ const EmployeeModule: React.FC = () => {
       });
   };
 
+  const handleCreate = () => {
+    console.log("jump to create");
+    navigate("/employee/create", { state: {} });
+  };
+
   const refreshEmployeeTable = () => {
     fetchEmployees(searchParams);
   };
@@ -169,6 +174,9 @@ const EmployeeModule: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={handleCreate}>新增</button>
+      </div>
     </div>
   );
 };
