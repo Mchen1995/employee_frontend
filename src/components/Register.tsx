@@ -11,18 +11,41 @@ interface Response<T> {
 }
 
 const RegisterContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const RegisterCard = styled.div`
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const RegisterButton = styled.button`
+  width: 318px;
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const BackLoginLink = styled(Link)`
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+`;
+
+const InputField = styled.input`
   width: 300px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 `;
 
 const Register: React.FC = () => {
@@ -60,37 +83,40 @@ const Register: React.FC = () => {
   return (
     <RegisterContainer>
       <RegisterCard>
-        <h2>注册</h2>
+        <h1>注册</h1>
         <div>
-          <label htmlFor="username">用户名:</label>
-          <input
+          <label htmlFor="username"></label>
+          <InputField
             type="text"
+            placeholder="用户名"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">密码:</label>
-          <input
+          <label htmlFor="password"></label>
+          <InputField
             type="password"
+            placeholder="密码"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="email">邮箱:</label>
-          <input
+          <label htmlFor="email"></label>
+          <InputField
             type="email"
+            placeholder="邮箱"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <button onClick={handleRegister}>注册</button>
+        <RegisterButton onClick={handleRegister}>注册</RegisterButton>
         <div>
-          已有账号?<Link to="/login">返回登录</Link>
+          <BackLoginLink to="/login">返回登录</BackLoginLink>
         </div>
       </RegisterCard>
     </RegisterContainer>
