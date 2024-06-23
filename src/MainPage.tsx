@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import EmployeeModule from "./EmployeeModule";
 import RewardPunishmentModule from "./RewardModule";
-import AttendanceRecords from "./AttendanceRecords";
+import AttendanceModule from "./AttendanceModule";
 
 const { Header, Content, Sider } = Layout;
 
@@ -51,7 +51,7 @@ const MainPage: React.FC = () => {
           {currentModule === "rewardAndPunishment" && (
             <RewardPunishmentModule />
           )}
-          {currentModule === "attendanceRecord" && <AttendanceRecords />}
+          {currentModule === "attendanceRecord" && <AttendanceModule />}
         </Content>
       </Layout>
     </Layout>
