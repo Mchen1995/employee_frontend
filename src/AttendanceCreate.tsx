@@ -41,10 +41,10 @@ const AttendanceCreate: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="custom-container">
       <h1>新增考勤记录</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="custom-input">
           <label htmlFor="employeeId">工号:</label>
           <input
             type="text"
@@ -55,7 +55,7 @@ const AttendanceCreate: React.FC = () => {
             required
           />
         </div>
-        <div>
+        <div className="custom-input">
           <label htmlFor="status">状态:</label>
           <input
             type="text"
@@ -66,7 +66,9 @@ const AttendanceCreate: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">保存</button>
+        <button className="custom-button" type="submit">
+          保存
+        </button>
       </form>
     </div>
   );

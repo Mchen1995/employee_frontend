@@ -47,7 +47,7 @@ const EmployeeCreate: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="custom-container">
       <h1>新增员工</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -115,7 +115,9 @@ const EmployeeCreate: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">保存</button>
+        <button className="custom-button" type="submit">
+          保存
+        </button>
       </form>
     </div>
   );

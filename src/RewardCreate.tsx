@@ -40,7 +40,7 @@ const RewardCreate: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="custom-container">
       <h1>新增奖惩记录</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -76,7 +76,9 @@ const RewardCreate: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">保存</button>
+        <button className="custom-button" type="submit">
+          保存
+        </button>
       </form>
     </div>
   );
