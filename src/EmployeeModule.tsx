@@ -101,7 +101,7 @@ const EmployeeModule: React.FC = () => {
 
   return (
     <div>
-      <div>
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <input
           type="text"
           placeholder="工号"
