@@ -79,7 +79,7 @@ const RewardModule: React.FC = () => {
   };
 
   const handleCreate = () => {
-    console.log("jump to create");
+    console.log("jump to create reward");
     navigate("/reward/create", { state: {} });
   };
 

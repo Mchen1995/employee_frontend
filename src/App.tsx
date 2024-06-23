@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import MainPage from "./MainPage";
 import EmployeeEdit from "./EmployeeEdit";
 import EmployeeCreate from "./EmployeeCreate";
+import RewardCreate from "./RewardCreate";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/employee/edit/:id" element={<EmployeeEdit />} />
         <Route path="/employee/create" element={<EmployeeCreate />} />
+        <Route path="/reward/create" element={<RewardCreate />} />
         {/* 其他路由 */}
       </Routes>
     </Router>
