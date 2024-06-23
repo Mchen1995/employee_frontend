@@ -11,8 +11,29 @@ import EmployeeModule from "./EmployeeModule";
 import RewardPunishmentModule from "./RewardModule";
 import AttendanceModule from "./AttendanceModule";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const { Header, Content, Sider } = Layout;
+
+const LogoutContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+`;
+
+const LogoutModal = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+`;
 
 const MainPage: React.FC = () => {
   const [currentModule, setCurrentModule] = useState("employeeManagement");
@@ -23,10 +44,16 @@ const MainPage: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const handleLogout = async () => {
     try {
       await axios.get("http://localhost:8080/api/auth/logout");
-      navigate("/login");
+      setShowLogoutModal(true);
+      setTimeout(() => {
+        setShowLogoutModal(false);
+        navigate("/login");
+      }, 3000);
     } catch (error) {
       console.error("登出失败:", error);
     }
@@ -57,6 +84,14 @@ const MainPage: React.FC = () => {
           >
             退出登录
           </Menu.Item>
+          {showLogoutModal && (
+            <LogoutContainer>
+              <LogoutModal>
+                <h3>登出成功!</h3>
+                <p>3 秒后将自动跳转到登录页面。</p>
+              </LogoutModal>
+            </LogoutContainer>
+          )}
         </Menu>
       </Sider>
       <Layout style={{ padding: "0 24px 24px" }}>
