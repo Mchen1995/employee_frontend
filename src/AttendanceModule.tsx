@@ -12,6 +12,12 @@ interface Attendance {
   recordDate: string;
 }
 
+interface Employee {
+  id: string;
+  name: string;
+  gender: string;
+}
+
 interface Response<T> {
   success: boolean;
   message: string;
@@ -28,13 +34,21 @@ const TableContainer = styled.div`
 const Attendance: React.FC = () => {
   const navigate = useNavigate();
   const [attendances, setAttendances] = useState<Attendance[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [searchParams, setSearchParams] = useState({
     employeeId: "",
     status: "",
   });
 
+  const [employeeSearchParams, setEmployeeSearchParams] = useState({
+    id: "",
+    name: "",
+    gender: "",
+  });
+
   useEffect(() => {
     fetchAttendances();
+    fetchEmployees();
   }, []);
 
   const fetchAttendances = async (
@@ -57,6 +71,31 @@ const Attendance: React.FC = () => {
       }
     } catch (error) {
       console.error("Error fetching attendances:", error);
+    }
+  };
+
+  // 查找员工信息
+  const fetchEmployees = async (
+    params: {
+      id: string;
+      name: string;
+      gender: string;
+    } = employeeSearchParams
+  ) => {
+    try {
+      const response = await axios.get<Response<Employee>>(
+        "http://localhost:8080/api/employee/list",
+        { params: employeeSearchParams }
+      );
+      if (response.data.success) {
+        console.log("query employees success");
+        setEmployees(response.data.data);
+      } else {
+        console.log("query employees failed");
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
     }
   };
 
@@ -136,45 +175,54 @@ const Attendance: React.FC = () => {
             <tr>
               <th style={{ padding: "12px 20px" }}>序号</th>
               <th style={{ padding: "12px 20px" }}>工号</th>
+              <th style={{ padding: "12px 20px" }}>姓名</th>
               <th style={{ padding: "12px 20px" }}>状态</th>
               <th style={{ padding: "12px 20px" }}>日期</th>
               <th style={{ padding: "12px 20px" }}>操作</th>
             </tr>
           </thead>
           <tbody>
-            {attendances.map((attendance) => (
-              <tr key={attendance.id}>
-                <td style={{ padding: "12px 20px" }}>{attendance.id}</td>
-                <td style={{ padding: "12px 20px" }}>
-                  {attendance.employeeId}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 20px",
-                    backgroundColor:
-                      attendance.status === "0"
-                        ? "green"
-                        : attendance.status === "1"
-                        ? "yellow"
-                        : "red",
-                  }}
-                >
-                  {attendance.status === "0"
-                    ? "正常"
-                    : attendance.status === "1"
-                    ? "迟到"
-                    : "未打卡"}
-                </td>
-                <td style={{ padding: "12px 20px" }}>
-                  {format(parseISO(attendance.recordDate), "yyyy-MM-dd")}
-                </td>
-                <td style={{ padding: "12px 20px" }}>
-                  <button onClick={() => handleDelete(attendance.id)}>
-                    删除
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {attendances.map((attendance) => {
+              const employee = employees.find(
+                (e) => e.id === attendance.employeeId
+              );
+              return (
+                <tr key={attendance.id}>
+                  <td style={{ padding: "12px 20px" }}>{attendance.id}</td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {attendance.employeeId}
+                  </td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {employee ? employee.name : "未知"}
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px 20px",
+                      backgroundColor:
+                        attendance.status === "0"
+                          ? "green"
+                          : attendance.status === "1"
+                          ? "yellow"
+                          : "red",
+                    }}
+                  >
+                    {attendance.status === "0"
+                      ? "正常"
+                      : attendance.status === "1"
+                      ? "迟到"
+                      : "未打卡"}
+                  </td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {format(parseISO(attendance.recordDate), "yyyy-MM-dd")}
+                  </td>
+                  <td style={{ padding: "12px 20px" }}>
+                    <button onClick={() => handleDelete(attendance.id)}>
+                      删除
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div style={{ alignItems: "center" }}>
