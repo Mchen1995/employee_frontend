@@ -11,29 +11,8 @@ import EmployeeModule from "./EmployeeModule";
 import RewardPunishmentModule from "./RewardModule";
 import AttendanceModule from "./AttendanceModule";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 const { Header, Content, Sider } = Layout;
-
-const LogoutContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-`;
-
-const LogoutModal = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-`;
 
 const MainPage: React.FC = () => {
   const [currentModule, setCurrentModule] = useState("employeeManagement");
@@ -43,8 +22,6 @@ const MainPage: React.FC = () => {
   };
 
   const navigate = useNavigate();
-
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
