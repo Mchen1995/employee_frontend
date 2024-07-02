@@ -13,6 +13,12 @@ interface Reward {
   recordDate: string;
 }
 
+interface Employee {
+  id: string;
+  name: string;
+  gender: string;
+}
+
 interface Response<T> {
   success: boolean;
   message: string;
@@ -29,6 +35,13 @@ const TableContainer = styled.div`
 const RewardModule: React.FC = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState<Reward[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employeeSearchParams, setEmployeeSearchParams] = useState({
+    id: "",
+    name: "",
+    gender: "",
+  });
+
   const [searchParams, setSearchParams] = useState({
     employeeId: "",
     content: "",
@@ -37,7 +50,32 @@ const RewardModule: React.FC = () => {
 
   useEffect(() => {
     fetchRewards();
+    fetchEmployees();
   }, []);
+
+  const fetchEmployees = async (
+    employeeParams: {
+      id: string;
+      name: string;
+      gender: string;
+    } = employeeSearchParams
+  ) => {
+    try {
+      const response = await axios.get<Response<Employee>>(
+        "http://localhost:8080/api/employee/list",
+        { params: employeeSearchParams }
+      );
+      if (response.data.success) {
+        console.log("query employees success");
+        setEmployees(response.data.data);
+      } else {
+        console.log("query employees failed");
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
 
   const fetchRewards = async (
     params: {
@@ -136,6 +174,7 @@ const RewardModule: React.FC = () => {
             <tr>
               <th style={{ padding: "12px 20px" }}>序号</th>
               <th style={{ padding: "12px 20px" }}>工号</th>
+              <th style={{ padding: "12px 20px" }}>姓名</th>
               <th style={{ padding: "12px 20px" }}>内容</th>
               <th style={{ padding: "12px 20px" }}>原因</th>
               <th style={{ padding: "12px 20px" }}>日期</th>
@@ -143,21 +182,31 @@ const RewardModule: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {rewards.map((reward) => (
-              <tr key={reward.id}>
-                <td style={{ padding: "12px 20px" }}>{reward.id}</td>
-                <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
-                <td style={{ padding: "12px 20px" }}>{reward.content}</td>
-                <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
-                <td style={{ padding: "12px 20px" }}>
-                  {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
-                </td>
-                <td style={{ padding: "12px 20px" }}>
-                  <Button onClick={() => handleEdit(reward)}>编辑</Button>
-                  <button onClick={() => handleDelete(reward.id)}>删除</button>
-                </td>
-              </tr>
-            ))}
+            {rewards.map((reward) => {
+              const employee = employees.find(
+                (e) => e.id === reward.employeeId
+              );
+              return (
+                <tr key={reward.id}>
+                  <td style={{ padding: "12px 20px" }}>{reward.id}</td>
+                  <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {employee ? employee.name : "未知"}
+                  </td>
+                  <td style={{ padding: "12px 20px" }}>{reward.content}</td>
+                  <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
+                  </td>
+                  <td style={{ padding: "12px 20px" }}>
+                    <Button onClick={() => handleEdit(reward)}>编辑</Button>
+                    <button onClick={() => handleDelete(reward.id)}>
+                      删除
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div style={{ alignItems: "center" }}>
