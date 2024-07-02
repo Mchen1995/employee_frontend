@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
+import { Button, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
@@ -143,6 +143,15 @@ const RewardModule: React.FC = () => {
     }));
   };
 
+  const handleSelectChange = (value: string, fieldName: string) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      [fieldName]: value,
+    }));
+  };
+
+  const { Option } = Select;
+
   return (
     <TableContainer>
       <div>
@@ -159,12 +168,16 @@ const RewardModule: React.FC = () => {
             value={searchParams.content}
             onChange={(e) => handleInputChange(e, "content")}
           />
-          <input
-            type="text"
-            placeholder="原因"
+          <Select
             value={searchParams.reason}
-            onChange={(e) => handleInputChange(e, "reason")}
-          />
+            onChange={(value) => handleSelectChange(value, "reason")}
+            style={{ width: "200px" }}
+          >
+            <Option value="">选择奖惩原因</Option>
+            <Option value="0">迟到</Option>
+            <Option value="1">未完成指标</Option>
+            <Option value="2">提前完成指标</Option>
+          </Select>
           <button className="custom-button" onClick={handleSearch}>
             查询
           </button>
@@ -194,7 +207,13 @@ const RewardModule: React.FC = () => {
                     {employee ? employee.name : "未知"}
                   </td>
                   <td style={{ padding: "12px 20px" }}>{reward.content}</td>
-                  <td style={{ padding: "12px 20px" }}>{reward.reason}</td>
+                  <td style={{ padding: "12px 20px" }}>
+                    {reward.reason === "0"
+                      ? "迟到"
+                      : reward.reason === "1"
+                      ? "未完成指标"
+                      : "提前完成指标"}
+                  </td>
                   <td style={{ padding: "12px 20px" }}>
                     {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
                   </td>

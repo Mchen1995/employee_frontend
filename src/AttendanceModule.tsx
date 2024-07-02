@@ -161,7 +161,7 @@ const Attendance: React.FC = () => {
             onChange={(value) => handleSelectChange(value, "status")}
             style={{ width: "200px" }}
           >
-            <Option value="">全部</Option>
+            <Option value="">选择考勤状态</Option>
             <Option value="0">正常</Option>
             <Option value="1">迟到</Option>
             <Option value="2">未打卡</Option>
