@@ -153,7 +153,7 @@ const RewardModule: React.FC = () => {
   const { Option } = Select;
 
   return (
-    <TableContainer>
+    <TableContainer style={{ height: "90vh" }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <input

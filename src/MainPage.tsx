@@ -44,8 +44,12 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <Layout>
-      <Sider width={200} className="site-layout-background">
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        width={200}
+        className="site-layout-background"
+        style={{ minHeight: "100vh" }}
+      >
         <Menu
           mode="inline"
           defaultSelectedKeys={["employeeManagement"]}

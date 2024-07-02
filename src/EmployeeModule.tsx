@@ -109,7 +109,7 @@ const EmployeeModule: React.FC = () => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer style={{ height: "90vh" }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <input
