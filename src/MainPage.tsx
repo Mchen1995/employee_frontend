@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import axios from "axios";
 import {
   UserOutlined,
@@ -46,17 +46,24 @@ const MainPage: React.FC = () => {
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
   const handleLogout = async () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = async () => {
     try {
       await axios.get("http://localhost:8080/api/auth/logout");
-      setShowLogoutModal(true);
-      setTimeout(() => {
-        setShowLogoutModal(false);
-        navigate("/login");
-      }, 3000);
+      setShowLogoutConfirm(false);
+      navigate("/login");
     } catch (error) {
       console.error("登出失败:", error);
     }
+  };
+
+  const cancelLogout = async () => {
+    setShowLogoutConfirm(false);
   };
 
   return (
@@ -84,13 +91,15 @@ const MainPage: React.FC = () => {
           >
             退出登录
           </Menu.Item>
-          {showLogoutModal && (
-            <LogoutContainer>
-              <LogoutModal>
-                <h3>登出成功!</h3>
-                <p>3 秒后将自动跳转到登录页面。</p>
-              </LogoutModal>
-            </LogoutContainer>
+          {showLogoutConfirm && (
+            <Modal
+              title="确认退出登录"
+              visible={showLogoutConfirm}
+              onOk={confirmLogout}
+              onCancel={cancelLogout}
+            >
+              <p>您确定要退出登录吗?</p>
+            </Modal>
           )}
         </Menu>
       </Sider>
