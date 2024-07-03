@@ -147,102 +147,102 @@ const Attendance: React.FC = () => {
 
   return (
     <TableContainer style={{ height: "90vh" }}>
-      <div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <Input
-            type="text"
-            placeholder="工号"
-            value={searchParams.employeeId}
-            onChange={(e) => handleInputChange(e, "employeeId")}
-          />
-
-          <Select
-            value={searchParams.status}
-            onChange={(value) => handleSelectChange(value, "status")}
-            style={{ width: "200px" }}
-          >
-            <Option value="">选择考勤状态</Option>
-            <Option value="0">正常</Option>
-            <Option value="1">迟到</Option>
-            <Option value="2">未打卡</Option>
-          </Select>
-          <Button onClick={handleSearch}>查询</Button>
-        </div>
-        <Table
-          pagination={{ pageSize: 5 }}
-          className="employee-table"
-          dataSource={attendances.map((attendance) => {
-            const employee = employees.find(
-              (e) => e.id === attendance.employeeId
-            );
-            return {
-              key: attendance.id,
-              id: attendance.id,
-              employeeId: attendance.employeeId,
-              name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
-              status:
-                attendance.status === "0"
-                  ? "正常"
-                  : attendance.status === "1"
-                  ? "迟到"
-                  : "未打卡",
-              recordDate: format(parseISO(attendance.recordDate), "yyyy-MM-dd"),
-            };
-          })}
-          columns={[
-            {
-              title: "序号",
-              dataIndex: "id",
-              key: "id",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "工号",
-              dataIndex: "employeeId",
-              key: "employeeId",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "姓名",
-              dataIndex: "name",
-              key: "name",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "状态",
-              dataIndex: "status",
-              key: "status",
-              width: 200,
-              align: "center",
-            },
-            {
-              title: "日期",
-              dataIndex: "recordDate",
-              key: "recordDate",
-              width: 150,
-              align: "center",
-            },
-            {
-              title: "操作",
-              key: "action",
-              width: 150,
-              align: "center",
-              render: (_, record) => (
-                <div>
-                  <Button danger onClick={() => handleDelete(record.id)}>
-                    删除
-                  </Button>
-                </div>
-              ),
-            },
-          ]}
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <Input
+          type="text"
+          placeholder="工号"
+          value={searchParams.employeeId}
+          onChange={(e) => handleInputChange(e, "employeeId")}
         />
-        <div style={{ alignItems: "center" }}>
-          <Button onClick={handleCreate}>新增</Button>
-        </div>
+
+        <Select
+          value={searchParams.status}
+          onChange={(value) => handleSelectChange(value, "status")}
+          style={{ width: "200px" }}
+        >
+          <Option value="">选择考勤状态</Option>
+          <Option value="0">正常</Option>
+          <Option value="1">迟到</Option>
+          <Option value="2">未打卡</Option>
+        </Select>
+        <Button onClick={handleSearch}>查询</Button>
+      </div>
+      <Table
+        pagination={{ pageSize: 5 }}
+        className="employee-table"
+        dataSource={attendances.map((attendance) => {
+          const employee = employees.find(
+            (e) => e.id === attendance.employeeId
+          );
+          return {
+            key: attendance.id,
+            id: attendance.id,
+            employeeId: attendance.employeeId,
+            name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
+            status:
+              attendance.status === "0"
+                ? "正常"
+                : attendance.status === "1"
+                ? "迟到"
+                : "未打卡",
+            recordDate: format(parseISO(attendance.recordDate), "yyyy-MM-dd"),
+          };
+        })}
+        columns={[
+          {
+            title: "序号",
+            dataIndex: "id",
+            key: "id",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "工号",
+            dataIndex: "employeeId",
+            key: "employeeId",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "姓名",
+            dataIndex: "name",
+            key: "name",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "状态",
+            dataIndex: "status",
+            key: "status",
+            width: 200,
+            align: "center",
+          },
+          {
+            title: "日期",
+            dataIndex: "recordDate",
+            key: "recordDate",
+            width: 150,
+            align: "center",
+          },
+          {
+            title: "操作",
+            key: "action",
+            width: 150,
+            align: "center",
+            render: (_, record) => (
+              <div>
+                <Button danger onClick={() => handleDelete(record.id)}>
+                  删除
+                </Button>
+              </div>
+            ),
+          },
+        ]}
+      />
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}
+      >
+        <Button onClick={handleCreate}>新增</Button>
       </div>
     </TableContainer>
   );

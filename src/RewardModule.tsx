@@ -154,114 +154,114 @@ const RewardModule: React.FC = () => {
 
   return (
     <TableContainer style={{ height: "90vh" }}>
-      <div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <Input
-            type="text"
-            placeholder="工号"
-            value={searchParams.employeeId}
-            onChange={(e) => handleInputChange(e, "employeeId")}
-          />
-          <Input
-            type="text"
-            placeholder="内容"
-            value={searchParams.content}
-            onChange={(e) => handleInputChange(e, "content")}
-          />
-          <Select
-            value={searchParams.reason}
-            onChange={(value) => handleSelectChange(value, "reason")}
-            style={{ width: "200px" }}
-          >
-            <Option value="">选择奖惩原因</Option>
-            <Option value="0">迟到</Option>
-            <Option value="1">未完成指标</Option>
-            <Option value="2">提前完成指标</Option>
-          </Select>
-          <Button onClick={handleSearch}>查询</Button>
-        </div>
-        <Table
-          pagination={{ pageSize: 5 }}
-          className="employee-table"
-          dataSource={rewards.map((reward) => {
-            const employee = employees.find((e) => e.id === reward.employeeId);
-            return {
-              key: reward.id,
-              id: reward.id,
-              employeeId: reward.employeeId,
-              name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
-              content: reward.content,
-              reason:
-                reward.reason === "0"
-                  ? "迟到"
-                  : reward.reason === "1"
-                  ? "未完成指标"
-                  : "提前完成指标",
-              recordDate: format(parseISO(reward.recordDate), "yyyy-MM-dd"),
-            };
-          })}
-          columns={[
-            {
-              title: "序号",
-              dataIndex: "id",
-              key: "id",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "工号",
-              dataIndex: "employeeId",
-              key: "employeeId",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "姓名",
-              dataIndex: "name",
-              key: "name",
-              width: 100,
-              align: "center",
-            },
-            {
-              title: "内容",
-              dataIndex: "content",
-              key: "content",
-              width: 200,
-              align: "center",
-            },
-            {
-              title: "原因",
-              dataIndex: "reason",
-              key: "reason",
-              width: 150,
-              align: "center",
-            },
-            {
-              title: "日期",
-              dataIndex: "recordDate",
-              key: "recordDate",
-              width: 150,
-              align: "center",
-            },
-            {
-              title: "操作",
-              key: "action",
-              width: 150,
-              align: "center",
-              render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <Button onClick={() => handleEdit(record)}>编辑</Button>
-                  <Button danger onClick={() => handleDelete(record.id)}>
-                    删除
-                  </Button>
-                </div>
-              ),
-            },
-          ]}
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <Input
+          type="text"
+          placeholder="工号"
+          value={searchParams.employeeId}
+          onChange={(e) => handleInputChange(e, "employeeId")}
         />
-        <div style={{ alignItems: "center" }}>
-          <Button onClick={handleCreate}>新增</Button>
-        </div>
+        <Input
+          type="text"
+          placeholder="内容"
+          value={searchParams.content}
+          onChange={(e) => handleInputChange(e, "content")}
+        />
+        <Select
+          value={searchParams.reason}
+          onChange={(value) => handleSelectChange(value, "reason")}
+          style={{ width: "200px" }}
+        >
+          <Option value="">选择奖惩原因</Option>
+          <Option value="0">迟到</Option>
+          <Option value="1">未完成指标</Option>
+          <Option value="2">提前完成指标</Option>
+        </Select>
+        <Button onClick={handleSearch}>查询</Button>
+      </div>
+      <Table
+        pagination={{ pageSize: 5 }}
+        className="employee-table"
+        dataSource={rewards.map((reward) => {
+          const employee = employees.find((e) => e.id === reward.employeeId);
+          return {
+            key: reward.id,
+            id: reward.id,
+            employeeId: reward.employeeId,
+            name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
+            content: reward.content,
+            reason:
+              reward.reason === "0"
+                ? "迟到"
+                : reward.reason === "1"
+                ? "未完成指标"
+                : "提前完成指标",
+            recordDate: format(parseISO(reward.recordDate), "yyyy-MM-dd"),
+          };
+        })}
+        columns={[
+          {
+            title: "序号",
+            dataIndex: "id",
+            key: "id",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "工号",
+            dataIndex: "employeeId",
+            key: "employeeId",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "姓名",
+            dataIndex: "name",
+            key: "name",
+            width: 100,
+            align: "center",
+          },
+          {
+            title: "内容",
+            dataIndex: "content",
+            key: "content",
+            width: 200,
+            align: "center",
+          },
+          {
+            title: "原因",
+            dataIndex: "reason",
+            key: "reason",
+            width: 150,
+            align: "center",
+          },
+          {
+            title: "日期",
+            dataIndex: "recordDate",
+            key: "recordDate",
+            width: 150,
+            align: "center",
+          },
+          {
+            title: "操作",
+            key: "action",
+            width: 150,
+            align: "center",
+            render: (_, record) => (
+              <div style={{ display: "flex", gap: "8px" }}>
+                <Button onClick={() => handleEdit(record)}>编辑</Button>
+                <Button danger onClick={() => handleDelete(record.id)}>
+                  删除
+                </Button>
+              </div>
+            ),
+          },
+        ]}
+      />
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}
+      >
+        <Button onClick={handleCreate}>新增</Button>
       </div>
     </TableContainer>
   );

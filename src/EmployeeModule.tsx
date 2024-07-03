@@ -112,33 +112,33 @@ const EmployeeModule: React.FC = () => {
 
   return (
     <TableContainer style={{ height: "90vh" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <Input
+          type="text"
+          placeholder="工号"
+          value={searchParams.id}
+          onChange={(e) => handleInputChange(e, "id")}
+        />
+        <Input
+          type="text"
+          placeholder="姓名"
+          value={searchParams.name}
+          onChange={(e) => handleInputChange(e, "name")}
+        />
+
+        <Select
+          value={searchParams.gender}
+          onChange={(value) => handleSelectChange(value, "gender")}
+          style={{ width: "200px" }}
+        >
+          <Option value="">选择性别</Option>
+          <Option value="0">男</Option>
+          <Option value="1">女</Option>
+        </Select>
+
+        <Button onClick={handleSearch}>查询</Button>
+      </div>
       <div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <Input
-            type="text"
-            placeholder="工号"
-            value={searchParams.id}
-            onChange={(e) => handleInputChange(e, "id")}
-          />
-          <Input
-            type="text"
-            placeholder="姓名"
-            value={searchParams.name}
-            onChange={(e) => handleInputChange(e, "name")}
-          />
-
-          <Select
-            value={searchParams.gender}
-            onChange={(value) => handleSelectChange(value, "gender")}
-            style={{ width: "200px" }}
-          >
-            <Option value="">选择性别</Option>
-            <Option value="0">男</Option>
-            <Option value="1">女</Option>
-          </Select>
-
-          <Button onClick={handleSearch}>查询</Button>
-        </div>
         <Table
           pagination={{ pageSize: 5 }}
           dataSource={employees.map((employee) => {
@@ -203,9 +203,11 @@ const EmployeeModule: React.FC = () => {
             },
           ]}
         ></Table>
-        <div style={{ alignItems: "center" }}>
-          <Button onClick={handleCreate}>新增</Button>
-        </div>
+      </div>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}
+      >
+        <Button onClick={handleCreate}>新增</Button>
       </div>
     </TableContainer>
   );
