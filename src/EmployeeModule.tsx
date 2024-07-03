@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Space } from "antd";
+import { Table, Input, Button, Pagination } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -112,13 +112,13 @@ const EmployeeModule: React.FC = () => {
     <TableContainer style={{ height: "90vh" }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <input
+          <Input
             type="text"
             placeholder="工号"
             value={searchParams.id}
             onChange={(e) => handleInputChange(e, "id")}
           />
-          <input
+          <Input
             type="text"
             placeholder="姓名"
             value={searchParams.name}
@@ -126,7 +126,7 @@ const EmployeeModule: React.FC = () => {
           />
 
           <label>
-            <input
+            <Input
               type="radio"
               name="gender"
               value="0"
@@ -136,7 +136,7 @@ const EmployeeModule: React.FC = () => {
             男
           </label>
           <label>
-            <input
+            <Input
               type="radio"
               name="gender"
               value="1"
@@ -146,7 +146,7 @@ const EmployeeModule: React.FC = () => {
             女
           </label>
           <label>
-            <input
+            <Input
               type="radio"
               name="gender"
               value=""
@@ -155,45 +155,74 @@ const EmployeeModule: React.FC = () => {
             />
             不限
           </label>
-          <button className="custom-button" onClick={handleSearch}>
-            查询
-          </button>
+          <Button onClick={handleSearch}>查询</Button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ padding: "12px 20px" }}>工号</th>
-              <th style={{ padding: "12px 20px" }}>姓名</th>
-              <th style={{ padding: "12px 20px" }}>性别</th>
-              <th style={{ padding: "12px 20px" }}>手机</th>
-              <th style={{ padding: "12px 20px" }}>部门</th>
-              <th style={{ padding: "12px 20px" }}>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map((employee) => (
-              <tr key={employee.id}>
-                <td style={{ padding: "12px 20px" }}>{employee.id}</td>
-                <td style={{ padding: "12px 20px" }}>{employee.name}</td>
-                <td style={{ padding: "12px 20px" }}>
-                  {employee.gender === "0" ? "男" : "女"}
-                </td>
-                <td style={{ padding: "12px 20px" }}>{employee.phone}</td>
-                <td style={{ padding: "12px 20px" }}>{employee.department}</td>
-                <td style={{ padding: "12px 20px" }}>
-                  <Button onClick={() => handleEdit(employee)}>编辑</Button>
-                  <button onClick={() => handleDelete(employee.id)}>
+        <Table
+          pagination={{ pageSize: 5 }}
+          dataSource={employees.map((employee) => {
+            return {
+              key: employee.id,
+              id: employee.id,
+              name: employee.name,
+              gender: employee.gender === "0" ? "男" : "女",
+              phone: employee.phone,
+              department: employee.department,
+            };
+          })}
+          columns={[
+            {
+              title: "工号",
+              dataIndex: "id",
+              key: "id",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "姓名",
+              dataIndex: "name",
+              key: "name",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "性别",
+              dataIndex: "gender",
+              key: "gender",
+              width: 200,
+              align: "center",
+            },
+            {
+              title: "电话",
+              dataIndex: "phone",
+              key: "phone",
+              width: 200,
+              align: "center",
+            },
+            {
+              title: "部门",
+              dataIndex: "department",
+              key: "department",
+              width: 150,
+              align: "center",
+            },
+            {
+              title: "操作",
+              key: "action",
+              width: 150,
+              align: "center",
+              render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <Button onClick={() => handleEdit(record)}>编辑</Button>
+                  <Button danger onClick={() => handleDelete(record.id)}>
                     删除
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+        ></Table>
         <div style={{ alignItems: "center" }}>
-          <button className="custom-button" onClick={handleCreate}>
-            新增
-          </button>
+          <Button onClick={handleCreate}>新增</Button>
         </div>
       </div>
     </TableContainer>

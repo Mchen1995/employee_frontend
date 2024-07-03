@@ -181,6 +181,7 @@ const RewardModule: React.FC = () => {
           <Button onClick={handleSearch}>查询</Button>
         </div>
         <Table
+          pagination={{ pageSize: 5 }}
           className="employee-table"
           dataSource={rewards.map((reward) => {
             const employee = employees.find((e) => e.id === reward.employeeId);
@@ -248,7 +249,7 @@ const RewardModule: React.FC = () => {
               width: 150,
               align: "center",
               render: (_, record) => (
-                <div>
+                <div style={{ display: "flex", gap: "8px" }}>
                   <Button onClick={() => handleEdit(record)}>编辑</Button>
                   <Button danger onClick={() => handleDelete(record.id)}>
                     删除

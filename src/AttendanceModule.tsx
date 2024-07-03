@@ -169,6 +169,7 @@ const Attendance: React.FC = () => {
           <Button onClick={handleSearch}>查询</Button>
         </div>
         <Table
+          pagination={{ pageSize: 5 }}
           className="employee-table"
           dataSource={attendances.map((attendance) => {
             const employee = employees.find(
