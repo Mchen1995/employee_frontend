@@ -257,7 +257,6 @@ const RewardModule: React.FC = () => {
               ),
             },
           ]}
-          pagination={false}
         />
         <div style={{ alignItems: "center" }}>
           <Button onClick={handleCreate}>新增</Button>

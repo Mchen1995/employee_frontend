@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Select } from "antd";
+import { Button, Select, Table, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
@@ -149,7 +149,7 @@ const Attendance: React.FC = () => {
     <TableContainer style={{ height: "90vh" }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <input
+          <Input
             type="text"
             placeholder="工号"
             value={searchParams.employeeId}
@@ -166,69 +166,81 @@ const Attendance: React.FC = () => {
             <Option value="1">迟到</Option>
             <Option value="2">未打卡</Option>
           </Select>
-          <button className="custom-button" onClick={handleSearch}>
-            查询
-          </button>
+          <Button onClick={handleSearch}>查询</Button>
         </div>
-        <table className="employee-table">
-          <thead>
-            <tr>
-              <th style={{ padding: "12px 20px" }}>序号</th>
-              <th style={{ padding: "12px 20px" }}>工号</th>
-              <th style={{ padding: "12px 20px" }}>姓名</th>
-              <th style={{ padding: "12px 20px" }}>状态</th>
-              <th style={{ padding: "12px 20px" }}>日期</th>
-              <th style={{ padding: "12px 20px" }}>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendances.map((attendance) => {
-              const employee = employees.find(
-                (e) => e.id === attendance.employeeId
-              );
-              return (
-                <tr key={attendance.id}>
-                  <td style={{ padding: "12px 20px" }}>{attendance.id}</td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {attendance.employeeId}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {employee ? employee.name : "未知"}
-                  </td>
-                  <td
-                    style={{
-                      padding: "12px 20px",
-                      backgroundColor:
-                        attendance.status === "0"
-                          ? "green"
-                          : attendance.status === "1"
-                          ? "yellow"
-                          : "red",
-                    }}
-                  >
-                    {attendance.status === "0"
-                      ? "正常"
-                      : attendance.status === "1"
-                      ? "迟到"
-                      : "未打卡"}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {format(parseISO(attendance.recordDate), "yyyy-MM-dd")}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>
-                    <button onClick={() => handleDelete(attendance.id)}>
-                      删除
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Table
+          className="employee-table"
+          dataSource={attendances.map((attendance) => {
+            const employee = employees.find(
+              (e) => e.id === attendance.employeeId
+            );
+            return {
+              key: attendance.id,
+              id: attendance.id,
+              employeeId: attendance.employeeId,
+              name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
+              status:
+                attendance.status === "0"
+                  ? "正常"
+                  : attendance.status === "1"
+                  ? "迟到"
+                  : "未打卡",
+              recordDate: format(parseISO(attendance.recordDate), "yyyy-MM-dd"),
+            };
+          })}
+          columns={[
+            {
+              title: "序号",
+              dataIndex: "id",
+              key: "id",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "工号",
+              dataIndex: "employeeId",
+              key: "employeeId",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "姓名",
+              dataIndex: "name",
+              key: "name",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "状态",
+              dataIndex: "status",
+              key: "status",
+              width: 200,
+              align: "center",
+            },
+            {
+              title: "日期",
+              dataIndex: "recordDate",
+              key: "recordDate",
+              width: 150,
+              align: "center",
+            },
+            {
+              title: "操作",
+              key: "action",
+              width: 150,
+              align: "center",
+              render: (_, record) => (
+                <div>
+                  <Button danger onClick={() => handleDelete(record.id)}>
+                    删除
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+        />
         <div style={{ alignItems: "center" }}>
-          <button className="custom-button" onClick={handleCreate}>
-            新增
-          </button>
+          <Button onClick={handleCreate}>新增</Button>
         </div>
       </div>
     </TableContainer>
