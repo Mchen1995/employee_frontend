@@ -197,8 +197,14 @@ const EmployeeModule: React.FC = () => {
               align: "center",
               render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                  <Button onClick={() => handleEdit(record)}>编辑</Button>
-                  <Button danger onClick={() => handleDelete(record.id)}>
+                  <Button type="link" onClick={() => handleEdit(record)}>
+                    编辑
+                  </Button>
+                  <Button
+                    type="link"
+                    danger
+                    onClick={() => handleDelete(record.id)}
+                  >
                     删除
                   </Button>
                 </div>

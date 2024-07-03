@@ -234,7 +234,11 @@ const Attendance: React.FC = () => {
             align: "center",
             render: (_, record) => (
               <div>
-                <Button danger onClick={() => handleDelete(record.id)}>
+                <Button
+                  type="link"
+                  danger
+                  onClick={() => handleDelete(record.id)}
+                >
                   删除
                 </Button>
               </div>
