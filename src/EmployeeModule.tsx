@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Input, Button, Select } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "./EmployeeModule.css";
 
@@ -136,7 +137,9 @@ const EmployeeModule: React.FC = () => {
           <Option value="1">女</Option>
         </Select>
 
-        <Button onClick={handleSearch}>查询</Button>
+        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          查询
+        </Button>
       </div>
       <div>
         <Table

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Select, Table, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
 import styled from "styled-components";
@@ -177,7 +178,9 @@ const RewardModule: React.FC = () => {
           <Option value="1">未完成指标</Option>
           <Option value="2">提前完成指标</Option>
         </Select>
-        <Button onClick={handleSearch}>查询</Button>
+        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          查询
+        </Button>
       </div>
       <Table
         pagination={{ pageSize: 5 }}

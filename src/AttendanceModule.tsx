@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Select, Table, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
@@ -165,7 +166,9 @@ const Attendance: React.FC = () => {
           <Option value="1">迟到</Option>
           <Option value="2">未打卡</Option>
         </Select>
-        <Button onClick={handleSearch}>查询</Button>
+        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          查询
+        </Button>
       </div>
       <Table
         pagination={{ pageSize: 5 }}
