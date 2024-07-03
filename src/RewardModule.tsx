@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Select } from "antd";
+import { Button, Select, Table, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
@@ -156,13 +156,13 @@ const RewardModule: React.FC = () => {
     <TableContainer style={{ height: "90vh" }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <input
+          <Input
             type="text"
             placeholder="工号"
             value={searchParams.employeeId}
             onChange={(e) => handleInputChange(e, "employeeId")}
           />
-          <input
+          <Input
             type="text"
             placeholder="内容"
             value={searchParams.content}
@@ -178,60 +178,89 @@ const RewardModule: React.FC = () => {
             <Option value="1">未完成指标</Option>
             <Option value="2">提前完成指标</Option>
           </Select>
-          <button className="custom-button" onClick={handleSearch}>
-            查询
-          </button>
+          <Button onClick={handleSearch}>查询</Button>
         </div>
-        <table className="employee-table">
-          <thead>
-            <tr>
-              <th style={{ padding: "12px 20px" }}>序号</th>
-              <th style={{ padding: "12px 20px" }}>工号</th>
-              <th style={{ padding: "12px 20px" }}>姓名</th>
-              <th style={{ padding: "12px 20px" }}>内容</th>
-              <th style={{ padding: "12px 20px" }}>原因</th>
-              <th style={{ padding: "12px 20px" }}>日期</th>
-              <th style={{ padding: "12px 20px" }}>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rewards.map((reward) => {
-              const employee = employees.find(
-                (e) => e.id === reward.employeeId
-              );
-              return (
-                <tr key={reward.id}>
-                  <td style={{ padding: "12px 20px" }}>{reward.id}</td>
-                  <td style={{ padding: "12px 20px" }}>{reward.employeeId}</td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {employee ? employee.name : "未知"}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>{reward.content}</td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {reward.reason === "0"
-                      ? "迟到"
-                      : reward.reason === "1"
-                      ? "未完成指标"
-                      : "提前完成指标"}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>
-                    {format(parseISO(reward.recordDate), "yyyy-MM-dd")}
-                  </td>
-                  <td style={{ padding: "12px 20px" }}>
-                    <Button onClick={() => handleEdit(reward)}>编辑</Button>
-                    <button onClick={() => handleDelete(reward.id)}>
-                      删除
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Table
+          className="employee-table"
+          dataSource={rewards.map((reward) => {
+            const employee = employees.find((e) => e.id === reward.employeeId);
+            return {
+              key: reward.id,
+              id: reward.id,
+              employeeId: reward.employeeId,
+              name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
+              content: reward.content,
+              reason:
+                reward.reason === "0"
+                  ? "迟到"
+                  : reward.reason === "1"
+                  ? "未完成指标"
+                  : "提前完成指标",
+              recordDate: format(parseISO(reward.recordDate), "yyyy-MM-dd"),
+            };
+          })}
+          columns={[
+            {
+              title: "序号",
+              dataIndex: "id",
+              key: "id",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "工号",
+              dataIndex: "employeeId",
+              key: "employeeId",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "姓名",
+              dataIndex: "name",
+              key: "name",
+              width: 100,
+              align: "center",
+            },
+            {
+              title: "内容",
+              dataIndex: "content",
+              key: "content",
+              width: 200,
+              align: "center",
+            },
+            {
+              title: "原因",
+              dataIndex: "reason",
+              key: "reason",
+              width: 150,
+              align: "center",
+            },
+            {
+              title: "日期",
+              dataIndex: "recordDate",
+              key: "recordDate",
+              width: 150,
+              align: "center",
+            },
+            {
+              title: "操作",
+              key: "action",
+              width: 150,
+              align: "center",
+              render: (_, record) => (
+                <div>
+                  <Button onClick={() => handleEdit(record)}>编辑</Button>
+                  <Button danger onClick={() => handleDelete(record.id)}>
+                    删除
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+          pagination={false}
+        />
         <div style={{ alignItems: "center" }}>
-          <button className="custom-button" onClick={handleCreate}>
-            新增
-          </button>
+          <Button onClick={handleCreate}>新增</Button>
         </div>
       </div>
     </TableContainer>
