@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Pagination } from "antd";
+import { Table, Input, Button, Select } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -59,6 +59,13 @@ const EmployeeModule: React.FC = () => {
     }
   };
 
+  const handleSelectChange = (value: string, fieldName: string) => {
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      [fieldName]: value,
+    }));
+  };
+
   const handleSearch = () => {
     fetchEmployees(searchParams);
   };
@@ -101,12 +108,7 @@ const EmployeeModule: React.FC = () => {
     }));
   };
 
-  const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams((prevParams) => ({
-      ...prevParams,
-      gender: e.target.value,
-    }));
-  };
+  const { Option } = Select;
 
   return (
     <TableContainer style={{ height: "90vh" }}>
@@ -125,36 +127,16 @@ const EmployeeModule: React.FC = () => {
             onChange={(e) => handleInputChange(e, "name")}
           />
 
-          <label>
-            <Input
-              type="radio"
-              name="gender"
-              value="0"
-              checked={searchParams.gender === "0"}
-              onChange={handleGenderChange}
-            />
-            男
-          </label>
-          <label>
-            <Input
-              type="radio"
-              name="gender"
-              value="1"
-              checked={searchParams.gender === "1"}
-              onChange={handleGenderChange}
-            />
-            女
-          </label>
-          <label>
-            <Input
-              type="radio"
-              name="gender"
-              value=""
-              checked={searchParams.gender === ""}
-              onChange={handleGenderChange}
-            />
-            不限
-          </label>
+          <Select
+            value={searchParams.gender}
+            onChange={(value) => handleSelectChange(value, "gender")}
+            style={{ width: "200px" }}
+          >
+            <Option value="">选择性别</Option>
+            <Option value="0">男</Option>
+            <Option value="1">女</Option>
+          </Select>
+
           <Button onClick={handleSearch}>查询</Button>
         </div>
         <Table
