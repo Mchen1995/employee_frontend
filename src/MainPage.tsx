@@ -44,55 +44,43 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        width={200}
-        className="site-layout-background"
-        style={{ minHeight: "100vh" }}
-      >
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={["employeeManagement"]}
-          style={{ height: "100%", borderRight: 0 }}
-          onClick={(e) => handleMenuClick(e.key)}
-        >
-          <Menu.Item key="employeeManagement" icon={<UserOutlined />}>
-            员工模块
-          </Menu.Item>
-          <Menu.Item key="rewardAndPunishment" icon={<ApartmentOutlined />}>
-            奖罚模块
-          </Menu.Item>
-          <Menu.Item key="attendanceRecord" icon={<ClockCircleOutlined />}>
-            考勤记录
-          </Menu.Item>
-          <Menu.Item
-            key="logout"
-            icon={<LogoutOutlined />}
-            onClick={handleLogout}
+    <Layout>
+      <Layout>
+        <Sider>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={["employeeManagement"]}
+            onClick={(e) => handleMenuClick(e.key)}
           >
-            退出登录
-          </Menu.Item>
-          {showLogoutConfirm && (
-            <Modal
-              title="确认退出登录"
-              visible={showLogoutConfirm}
-              onOk={confirmLogout}
-              onCancel={cancelLogout}
+            <Menu.Item key="employeeManagement" icon={<UserOutlined />}>
+              员工模块
+            </Menu.Item>
+            <Menu.Item key="rewardAndPunishment" icon={<ApartmentOutlined />}>
+              奖罚模块
+            </Menu.Item>
+            <Menu.Item key="attendanceRecord" icon={<ClockCircleOutlined />}>
+              考勤记录
+            </Menu.Item>
+            <Menu.Item
+              key="logout"
+              icon={<LogoutOutlined />}
+              onClick={handleLogout}
             >
-              <p>您确定要退出登录吗?</p>
-            </Modal>
-          )}
-        </Menu>
-      </Sider>
-      <Layout style={{ padding: "0 24px 24px" }}>
-        <Content
-          className="site-layout-background"
-          style={{
-            padding: 24,
-            margin: 0,
-            minHeight: 280,
-          }}
-        >
+              退出登录
+            </Menu.Item>
+            {showLogoutConfirm && (
+              <Modal
+                title="确认退出登录"
+                visible={showLogoutConfirm}
+                onOk={confirmLogout}
+                onCancel={cancelLogout}
+              >
+                <p>您确定要退出登录吗?</p>
+              </Modal>
+            )}
+          </Menu>
+        </Sider>
+        <Content className="site-layout-background">
           {currentModule === "employeeManagement" && <EmployeeModule />}
           {currentModule === "rewardAndPunishment" && (
             <RewardPunishmentModule />
