@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Select, Table, Input } from "antd";
+import { Button, Select, Table, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -36,6 +36,8 @@ const TableContainer = styled.div`
 const RewardModule: React.FC = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState<Reward[]>([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [employeeSearchParams, setEmployeeSearchParams] = useState({
     id: "",
@@ -111,11 +113,13 @@ const RewardModule: React.FC = () => {
     navigate(`/reward/edit/${reward.id}`, { state: reward });
   };
 
-  const handleDelete = (id: string) => {
-    fetch(`http://localhost:8080/api/reward/delete/${id}`, {
+  const confirmDelete = () => {
+    fetch(`http://localhost:8080/api/reward/delete/${idToDelete}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
+      // 删除成功后，关闭弹窗
+      .then(cancelDelete)
       .then((data) => {
         // 删除成功后,刷新表格
         refreshEmployeeTable();
@@ -123,6 +127,16 @@ const RewardModule: React.FC = () => {
       .catch((error) => {
         console.error("Error deleting:", error);
       });
+  };
+
+  // 处理点击删除事件，点击时展示确认窗口
+  const handleDelete = (id: string) => {
+    setIdToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false);
   };
 
   const handleCreate = () => {
@@ -262,6 +276,16 @@ const RewardModule: React.FC = () => {
                 >
                   删除
                 </Button>
+                <Modal
+                  title="确认删除？"
+                  open={showDeleteConfirm}
+                  onOk={confirmDelete}
+                  onCancel={cancelDelete}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <p>确认删除奖惩记录{idToDelete}</p>
+                </Modal>
               </div>
             ),
           },

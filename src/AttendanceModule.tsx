@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Select, Table, Input } from "antd";
+import { Button, Select, Table, Input, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -35,6 +35,8 @@ const TableContainer = styled.div`
 const Attendance: React.FC = () => {
   const navigate = useNavigate();
   const [attendances, setAttendances] = useState<Attendance[]>([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [searchParams, setSearchParams] = useState({
     employeeId: "",
@@ -104,11 +106,13 @@ const Attendance: React.FC = () => {
     fetchAttendances(searchParams);
   };
 
-  const handleDelete = (id: string) => {
-    fetch(`http://localhost:8080/api/attendance/delete/${id}`, {
+  const confirmDelete = () => {
+    fetch(`http://localhost:8080/api/attendance/delete/${idToDelete}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
+      // 删除成功后，关闭弹窗
+      .then(cancelDelete)
       .then((data) => {
         // 删除成功后,刷新表格
         refreshEmployeeTable();
@@ -116,6 +120,16 @@ const Attendance: React.FC = () => {
       .catch((error) => {
         console.error("Error deleting:", error);
       });
+  };
+
+  // 处理点击删除事件，点击时展示确认窗口
+  const handleDelete = (id: string) => {
+    setIdToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false);
   };
 
   const handleCreate = () => {
@@ -243,6 +257,16 @@ const Attendance: React.FC = () => {
                 >
                   删除
                 </Button>
+                <Modal
+                  title="确认删除？"
+                  open={showDeleteConfirm}
+                  onOk={confirmDelete}
+                  onCancel={cancelDelete}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <p>确认删除考勤记录{idToDelete}</p>
+                </Modal>
               </div>
             ),
           },

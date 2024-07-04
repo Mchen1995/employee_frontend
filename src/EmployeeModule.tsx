@@ -225,6 +225,8 @@ const EmployeeModule: React.FC = () => {
                       open={showDeleteConfirm}
                       onOk={confirmDelete}
                       onCancel={cancelDelete}
+                      okText="确认"
+                      cancelText="取消"
                     >
                       <p>
                         确认删除员工{" "}
