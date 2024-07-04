@@ -183,11 +183,13 @@ const Attendance: React.FC = () => {
             employeeId: attendance.employeeId,
             name: employee ? employee.name : "", // 如果找不到员工,则设置为空字符串
             status:
-              attendance.status === "0"
-                ? "正常"
-                : attendance.status === "1"
-                ? "迟到"
-                : "未打卡",
+              attendance.status === "0" ? (
+                <span style={{ color: "green" }}>正常</span>
+              ) : attendance.status === "1" ? (
+                <span style={{ color: "gold" }}>迟到</span>
+              ) : (
+                <span style={{ color: "red" }}>未打卡</span>
+              ),
             recordDate: format(parseISO(attendance.recordDate), "yyyy-MM-dd"),
           };
         })}
