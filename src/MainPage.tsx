@@ -44,7 +44,17 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout style={{ height: "100%" }}>
+      <Header
+        style={{
+          height: 64,
+          paddingInline: 48,
+          lineHeight: "64px",
+          textAlign: "center",
+        }}
+      >
+        员工管理系统
+      </Header>
       <Layout>
         <Sider>
           <Menu

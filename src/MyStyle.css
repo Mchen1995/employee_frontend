@@ -1,0 +1,12 @@
+.custom-modal {
+  background-color: rgba(0, 0, 0, 0.6); /* 设置半透明的黑色背景 */
+}
+
+.custom-modal .ant-modal-content {
+  background-color: rgba(255, 255, 255, 0.9); /* 设置弹窗内容的半透明白色背景 */
+}
+
+.header-style {
+  text-align: "center";
+  height: 64;
+}
