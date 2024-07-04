@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Select } from "antd";
+import { Table, Input, Button, Select, Modal } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
@@ -29,6 +29,8 @@ const TableContainer = styled.div`
 const EmployeeModule: React.FC = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
   const [searchParams, setSearchParams] = useState({
     id: "",
     name: "",
@@ -75,11 +77,18 @@ const EmployeeModule: React.FC = () => {
     navigate(`/employee/edit/${employee.id}`, { state: employee });
   };
 
+  // 处理点击删除事件，点击时展示确认窗口
   const handleDelete = (id: string) => {
-    fetch(`http://localhost:8080/api/employee/delete/${id}`, {
+    setIdToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    fetch(`http://localhost:8080/api/employee/delete/${idToDelete}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
+      .then(cancelDelete)
       .then((data) => {
         // 删除成功后,刷新表格
         refreshEmployeeTable();
@@ -87,6 +96,10 @@ const EmployeeModule: React.FC = () => {
       .catch((error) => {
         console.error("Error deleting employee:", error);
       });
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false);
   };
 
   const handleCreate = () => {
@@ -206,6 +219,24 @@ const EmployeeModule: React.FC = () => {
                   >
                     删除
                   </Button>
+                  {showDeleteConfirm && (
+                    <Modal
+                      title="确认删除？"
+                      open={showDeleteConfirm}
+                      onOk={confirmDelete}
+                      onCancel={cancelDelete}
+                    >
+                      <p>
+                        确认删除员工{" "}
+                        {
+                          employees.find(
+                            (employee) => employee.id === idToDelete
+                          )?.name
+                        }
+                        ?
+                      </p>
+                    </Modal>
+                  )}
                 </div>
               ),
             },
